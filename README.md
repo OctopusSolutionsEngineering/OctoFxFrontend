@@ -1,10 +1,10 @@
 # OctoFX Front End 
 
-Modern implementation of the Octo FX demo project. This is a modern web app built with multiple technologie. Simple NodeJS front end using HTMLX and a handful of microservices built in different languages (C#, NodeJS+TypeScript, Go) combined with simple cloud databases.
+Octo Foreign Exchange Trading Front End. This is a Modern implementation of the Octo FX demo project. This is a modern web app built with multiple technologie. Simple NodeJS front end using HTMLX and a handful of microservices built in different languages (C#, NodeJS+TypeScript, Go) combined with simple cloud databases.
 
 ## Features
 
-OctoFX enablements teams to conver.
+OctoFX enablements teams to ... 
 
 * Conversion 
 
