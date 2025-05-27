@@ -4,13 +4,11 @@ on:
   push:
     branches:
       - main
-      - feat*
-      - rp-*
       - FINT-*
   pull_request:
     branches:
       - main
-      - modern
+      - FINT-*
 
 permissions: write-all
 
@@ -19,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      OCTOPUS_SPACE: 'FinTech'
+      OCTOPUS_SPACE: 'DataDog DASH'
   
     steps:
       - name: Checkout code
@@ -66,7 +64,7 @@ jobs:
       - name: Create Octopus Release
         uses: OctopusDeploy/create-release-action@v3
         with: 
-          project: OctoFX
+          project: 'OctoFX 2025'
           release_number: ${{ env.PACKAGE_VERSION }}
           release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
           git_ref: 'refs/heads/modern'
@@ -74,6 +72,6 @@ jobs:
       - name: Deploy a release in Octopus Deploy 🐙
         uses: OctopusDeploy/deploy-release-action@v3
         with:
-          project: 'OctoFX'
+          project: 'OctoFX 2025'
           release_number: ${{env.PACKAGE_VERSION}}
           environments: Development
