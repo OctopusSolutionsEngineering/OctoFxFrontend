@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      OCTOPUS_SPACE: 'DataDog DASH'
+      OCTOPUS_SPACE: 'Datadog DASH'
   
     steps:
       - name: Checkout code
