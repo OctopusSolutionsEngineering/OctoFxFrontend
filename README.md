@@ -9,7 +9,7 @@ OctoFX enablements teams to ...
 * View rates
 * Currency Conversion
 * Reporting 
-asdf
+
 
 ## Getting Started
 
