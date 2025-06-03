@@ -6,7 +6,9 @@ Octo Foreign Exchange Trading Front End. This is a Modern implementation of the 
 
 OctoFX enablements teams to ... 
 
-* Conversion 
+* View rates
+* Currency Conversion
+* Reporting 
 
 ## Getting Started
 
