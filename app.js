@@ -12,14 +12,17 @@ app.get('/', (req, res) => {
 
 app.get('/rates', (req, res) => {
 
-  for (let i = 0; i < 1000; i++) {
-    list.push({
-      "name": "server",
-      "arr":  new Array(10000000).fill("leak")
-    })
-  }
+  // Memory Leak
+
+  // for (let i = 0; i < 1000; i++) {
+  //   list.push({
+  //     "name": "server",
+  //     "arr":  new Array(10000000).fill("leak")
+  //   })
+  // }
 
   res.send('USD: xx, CAD: xy, GBP: xz, SGP: yy AUD: yz')
+  throw new Error("Intentional crash");
 })
 
 app.get('/trade', (req, res) => {
