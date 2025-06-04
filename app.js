@@ -24,7 +24,7 @@ app.get('/rates', (req, res) => {
 })
 
 app.get('/trade', (req, res) => {
-  res.send('Convert currency 1 to currency 2 ...')
+  throw new Error("Intentional crash");
 })
 
 app.get('/daily-report', (req, res) => {
@@ -33,5 +33,4 @@ app.get('/daily-report', (req, res) => {
 
 app.listen(port, () => {
   console.log(`OctoFX 2025. Listening on port ${port}`)
-  throw new Error("Intentional crash");
 })
