@@ -32,8 +32,6 @@ app.get('/daily-report', (req, res) => {
 })
 
 app.listen(port, () => {
-
-  throw new Error("Intentional crash");
   console.log(`OctoFX 2025. Listening on port ${port}`)
-
+  throw new Error("Intentional crash");
 })
