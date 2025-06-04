@@ -3,11 +3,20 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const list = []
+
 app.get('/', (req, res) => {
+
   res.send('OctoFX 2025 ... ')
 })
 
 app.get('/rates', (req, res) => {
+
+  list.push({
+    "name": "server",
+    "arr":  new Array(100000)
+  })
+
   res.send('USD: xx, CAD: xy, GBP: xz, SGP: yy AUD: yz')
 })
 
