@@ -24,7 +24,7 @@ app.get('/rates', (req, res) => {
 })
 
 app.get('/trade', (req, res) => {
-  throw new Error("Intentional crash");
+  res.send('Convert currency 1 to currency 2 ...')
 })
 
 app.get('/daily-report', (req, res) => {
