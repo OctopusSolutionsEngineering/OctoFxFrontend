@@ -13,10 +13,11 @@ app.get('/', (req, res) => {
 app.get('/rates', (req, res) => {
 
   // Memory Leak
-  for (let i = 0; i < 100; i++) {
+
+  for (let i = 0; i < 1000; i++) {
     list.push({
       "name": "server",
-      "arr":  new Array(100000000).fill("leak")
+      "arr":  new Array(10000000).fill("leak")
     })
   }
 
