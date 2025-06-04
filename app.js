@@ -14,7 +14,7 @@ app.get('/rates', (req, res) => {
 
   list.push({
     "name": "server",
-    "arr":  new Array(100000)
+    "arr":  new Array(10000000).fill("leak")
   })
 
   res.send('USD: xx, CAD: xy, GBP: xz, SGP: yy AUD: yz')
