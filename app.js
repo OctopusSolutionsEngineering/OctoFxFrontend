@@ -7,7 +7,7 @@ const list = []
 
 app.get('/', (req, res) => {
 
-  res.send('OctoFX 2025.06.01 ... ')
+  res.send('OctoFX 2025.06.11 ... ')
 })
 
 app.get('/rates', (req, res) => {
