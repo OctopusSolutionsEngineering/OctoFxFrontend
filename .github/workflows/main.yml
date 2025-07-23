@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      OCTOPUS_SPACE: 'Datadog DASH'
+      OCTOPUS_SPACE: 'Marketplaces'
   
     steps:
       - name: Checkout code
@@ -49,28 +49,28 @@ jobs:
               docker build . --tag ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
               docker push ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
 
-      - name: Login to Octopus Deploy 
-        uses: OctopusDeploy/login@v1
-        with: 
-          server: https://demo.octopus.app
-          service_account_id: 6eb6b6d6-74c6-43da-b563-b1022930ed74
+      # - name: Login to Octopus Deploy 
+      #   uses: OctopusDeploy/login@v1
+      #   with: 
+      #     server: https://demo.octopus.app
+      #     service_account_id: 6eb6b6d6-74c6-43da-b563-b1022930ed74
 
-      - name: Push Build Information (Metadata)
-        uses: OctopusDeploy/push-build-information-action@v3       
-        with:
-          version: ${{env.PACKAGE_VERSION}}
-          packages: octopussolutionsengineering/octofx-frontend
+      # - name: Push Build Information (Metadata)
+      #   uses: OctopusDeploy/push-build-information-action@v3       
+      #   with:
+      #     version: ${{env.PACKAGE_VERSION}}
+      #     packages: octopussolutionsengineering/octofx-frontend
           
-      - name: Create Octopus Release
-        uses: OctopusDeploy/create-release-action@v3
-        with: 
-          project: 'OctoFX frontend'
-          release_number: ${{ env.PACKAGE_VERSION }}
-          release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
+      # - name: Create Octopus Release
+      #   uses: OctopusDeploy/create-release-action@v3
+      #   with: 
+      #     project: 'OctoFX frontend'
+      #     release_number: ${{ env.PACKAGE_VERSION }}
+      #     release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
 
-      - name: Deploy a release in Octopus Deploy 🐙
-        uses: OctopusDeploy/deploy-release-action@v3
-        with:
-          project: 'OctoFX frontend'
-          release_number: ${{env.PACKAGE_VERSION}}
-          environments: Development
+      # - name: Deploy a release in Octopus Deploy 🐙
+      #   uses: OctopusDeploy/deploy-release-action@v3
+      #   with:
+      #     project: 'OctoFX frontend'
+      #     release_number: ${{env.PACKAGE_VERSION}}
+      #     environments: Development
