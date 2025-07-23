@@ -61,16 +61,16 @@ jobs:
           version: ${{env.PACKAGE_VERSION}}
           packages: octopussolutionsengineering/octofx-frontend
           
-      # - name: Create Octopus Release
-      #   uses: OctopusDeploy/create-release-action@v3
-      #   with: 
-      #     project: 'OctoFX frontend'
-      #     release_number: ${{ env.PACKAGE_VERSION }}
-      #     release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
+      - name: Create Octopus Release
+        uses: OctopusDeploy/create-release-action@v3
+        with: 
+          project: 'OctoFX frontend'
+          release_number: ${{ env.PACKAGE_VERSION }}
+          release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
 
-      # - name: Deploy a release in Octopus Deploy 🐙
-      #   uses: OctopusDeploy/deploy-release-action@v3
-      #   with:
-      #     project: 'OctoFX frontend'
-      #     release_number: ${{env.PACKAGE_VERSION}}
-      #     environments: Development
+      - name: Deploy a release in Octopus Deploy 🐙
+        uses: OctopusDeploy/deploy-release-action@v3
+        with:
+          project: 'OctoFX frontend'
+          release_number: ${{env.PACKAGE_VERSION}}
+          environments: Development
