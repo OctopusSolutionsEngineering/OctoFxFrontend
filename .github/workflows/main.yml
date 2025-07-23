@@ -49,17 +49,17 @@ jobs:
               docker build . --tag ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
               docker push ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
 
-      # - name: Login to Octopus Deploy 
-      #   uses: OctopusDeploy/login@v1
-      #   with: 
-      #     server: https://demo.octopus.app
-      #     service_account_id: 6eb6b6d6-74c6-43da-b563-b1022930ed74
+      - name: Login to Octopus Deploy 
+        uses: OctopusDeploy/login@v1
+        with: 
+          server: https://robpearson.octopus.app
+          service_account_id: e8f2fc95-9160-4419-be1d-8ebbb5326968
 
-      # - name: Push Build Information (Metadata)
-      #   uses: OctopusDeploy/push-build-information-action@v3       
-      #   with:
-      #     version: ${{env.PACKAGE_VERSION}}
-      #     packages: octopussolutionsengineering/octofx-frontend
+      - name: Push Build Information (Metadata)
+        uses: OctopusDeploy/push-build-information-action@v3       
+        with:
+          version: ${{env.PACKAGE_VERSION}}
+          packages: octopussolutionsengineering/octofx-frontend
           
       # - name: Create Octopus Release
       #   uses: OctopusDeploy/create-release-action@v3
