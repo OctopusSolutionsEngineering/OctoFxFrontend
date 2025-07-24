@@ -48,10 +48,6 @@ variable "Slack.Notification.Channel" {
     value "production-notifications" {}
 }
 
-variable "Slack.Notification.Webhook" {
-    value "https://hooks.slack.com/services/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" {}
-}
-
 variable "spec:ports:0:port" {
     value "#{Project.WebApp.HttpPort}" {}
 }
