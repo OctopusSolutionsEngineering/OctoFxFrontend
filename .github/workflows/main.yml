@@ -60,6 +60,7 @@ jobs:
         with:
           version: ${{env.PACKAGE_VERSION}}
           packages: octopussolutionsengineering/octofx-frontend
+          overwrite_mode: OverwriteExisting
           
       - name: Create Octopus Release
         uses: OctopusDeploy/create-release-action@v3
