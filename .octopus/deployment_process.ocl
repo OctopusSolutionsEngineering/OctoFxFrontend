@@ -8,6 +8,7 @@ step "production-approval" {
             Octopus.Action.Manual.BlockConcurrentDeployments = "False"
             Octopus.Action.Manual.Instructions = "Does this release have a change request with approvals? "
             Octopus.Action.Manual.ResponsibleTeamIds = "space-managers"
+            Octopus.Action.RunOnServer = "false"
         }
     }
 }
@@ -88,7 +89,7 @@ step "datadog-create-deployment-event" {
     action {
         properties = {
             AlertType = "info"
-            ApiKey = "ccb0af6102ea5f248bffaa9b6a7313ab"
+            ApiKey = "#{Project.Datadog.ApiKey}"
             DatadogEndpoint = "https://app.datadoghq.com"
             EventBody = "#{Octopus.Project.Name} #{Octopus.Release.Number} deployed to #{Octopus.Environment.Name}"
             EventTitle = "#{Octopus.Project.Name} deployment"
