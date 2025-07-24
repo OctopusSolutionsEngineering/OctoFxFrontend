@@ -11,16 +11,6 @@ app.get('/', (req, res) => {
 })
 
 app.get('/rates', (req, res) => {
-
-  // Memory Leak
-
-  for (let i = 0; i < 1000; i++) {
-    list.push({
-      "name": "server",
-      "arr":  new Array(10000000).fill("leak")
-    })
-  }
-
   res.send('USD: xx, CAD: xy, GBP: xz, SGP: yy AUD: yz')
 })
 
