@@ -1,0 +1,61 @@
+variable "metadata:name" {
+    value "#{Project.Webapp.ServiceName}" {}
+}
+
+variable "metadata:namespace" {
+    value "#{Project.Cluster.Namespace}" {}
+}
+
+variable "OctopusPrintEvaluatedVariables" {
+    value "False" {}
+}
+
+variable "Project.CleanedEnvironmentName" {
+    value "development" {
+        environment = ["development"]
+    }
+
+    value "staging" {
+        environment = ["staging"]
+    }
+
+    value "production" {
+        environment = ["production"]
+    }
+}
+
+variable "Project.CleanedProjectName" {
+    value "#{Octopus.Project.Name | Replace \"[^a-zA-Z]+\" \"-\" | ToLower}" {}
+}
+
+variable "Project.Cluster.Namespace" {
+    value "#{Project.CleanedProjectName}-#{Project.CleanedEnvironmentName}" {}
+}
+
+variable "Project.WebApp.HttpPort" {
+    value "5000" {}
+}
+
+variable "Project.WebApp.HttpsPort" {
+    value "5001" {}
+}
+
+variable "Project.WebApp.ServiceName" {
+    value "octofx-frontend" {}
+}
+
+variable "Slack.Notification.Channel" {
+    value "production-notifications" {}
+}
+
+variable "Slack.Notification.Webhook" {
+    value "https://hooks.slack.com/services/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" {}
+}
+
+variable "spec:ports:0:port" {
+    value "#{Project.WebApp.HttpPort}" {}
+}
+
+variable "spec:template:spec:containers:0:image" {
+    value "ghcr.io/octopussolutionsengineering/octofx-frontend:2.10.678" {}
+}

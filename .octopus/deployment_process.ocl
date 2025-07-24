@@ -1,0 +1,121 @@
+step "production-approval" {
+    name = "Production Approval"
+
+    action {
+        action_type = "Octopus.Manual"
+        environments = ["production"]
+        properties = {
+            Octopus.Action.Manual.BlockConcurrentDeployments = "False"
+            Octopus.Action.Manual.Instructions = "Does this release have a change request with approvals? "
+            Octopus.Action.Manual.ResponsibleTeamIds = "space-managers"
+        }
+    }
+}
+
+step "deploy-kubernetes-yaml" {
+    name = "Deploy Kubernetes YAML"
+    properties = {
+        Octopus.Action.TargetRoles = "octofx-k8s"
+    }
+
+    action {
+        action_type = "Octopus.KubernetesDeployRawYaml"
+        properties = {
+            Octopus.Action.Kubernetes.DeploymentTimeout = "180"
+            Octopus.Action.Kubernetes.ResourceStatusCheck = "True"
+            Octopus.Action.Kubernetes.ServerSideApply.Enabled = "True"
+            Octopus.Action.Kubernetes.ServerSideApply.ForceConflicts = "True"
+            Octopus.Action.KubernetesContainers.CustomResourceYaml = <<-EOT
+                apiVersion: apps/v1
+                kind: Deployment
+                metadata:
+                  name: octofx-frontend
+                  labels:
+                    app: octofx-frontend
+                spec:
+                  replicas: 1
+                  selector:
+                    matchLabels:
+                      app: octofx-frontend
+                  template:
+                    metadata:
+                      labels:
+                        app: octofx-frontend
+                    spec:
+                      containers:
+                      - name: octofx-frontend
+                        image: ghcr.io/octopussolutionsengineering/octofx-frontend:1.0.0
+                        env:
+                        - name: NewLoadAlgorithm
+                          value: "true"
+                        - name: ExperimentalRouting
+                          value: "false"
+                        ports:
+                        - containerPort: 3000
+                
+                ---
+                apiVersion: v1
+                kind: Service
+                metadata:
+                  name: octofx-frontend-service
+                spec:
+                  selector:
+                    app: octofx-frontend
+                  ports:
+                    - protocol: TCP
+                      port: 30001
+                      targetPort: 3000
+                  type: LoadBalancer  # Change to NodePort if you're running locally
+                EOT
+            Octopus.Action.KubernetesContainers.Namespace = "#{Project.Cluster.Namespace}"
+            Octopus.Action.Package.JsonConfigurationVariablesTargets = "**/*.{yml,yaml}"
+            Octopus.Action.Script.ScriptSource = "Inline"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "hosted-windows"
+        worker_pool_variable = ""
+
+        container {
+            feed = "dockerhub"
+            image = "octopuslabs/k8s-workertools:1.30"
+        }
+    }
+}
+
+step "datadog-create-deployment-event" {
+    name = "Datadog - Create Deployment Event"
+
+    action {
+        properties = {
+            AlertType = "info"
+            ApiKey = "ccb0af6102ea5f248bffaa9b6a7313ab"
+            DatadogEndpoint = "https://app.datadoghq.com"
+            EventBody = "#{Octopus.Project.Name} #{Octopus.Release.Number} deployed to #{Octopus.Environment.Name}"
+            EventTitle = "#{Octopus.Project.Name} deployment"
+            Octopus.Action.Template.Id = "ActionTemplates-362"
+            Octopus.Action.Template.Version = "3"
+            Priority = "normal"
+            Tags = "env:#{Octopus.Environment.Name}"
+        }
+        worker_pool = "hosted-windows"
+    }
+}
+
+step "slack-send-simple-notification" {
+    name = "Slack - Send Simple Notification"
+
+    action {
+        environments = ["production"]
+        properties = {
+            Octopus.Action.Template.Id = "ActionTemplates-361"
+            Octopus.Action.Template.Version = "15"
+            ssn_Channel = "#{Slack.Notification.Channel}"
+            ssn_Color = "good"
+            ssn_HookUrl = "#{Slack.Notification.Webhook}"
+            ssn_IconUrl = "https://octopus.com/content/resources/favicon.png"
+            ssn_Title = ":rocket: #{Octopus.Project.Name} release v#{Octopus.Release.Number} deployed #{Octopus.Environment.Name}}"
+            ssn_Username = "Octopus Deploy"
+        }
+        worker_pool = "hosted-windows"
+    }
+}
