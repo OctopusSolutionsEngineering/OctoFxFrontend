@@ -120,23 +120,3 @@ step "slack-send-simple-notification" {
         worker_pool = "hosted-windows"
     }
 }
-
-step "hello-world" {
-    name = "Hello world!"
-
-    action {
-        action_type = "Octopus.Script"
-        properties = {
-            Octopus.Action.GitRepository.Source = "Project"
-            Octopus.Action.Script.ScriptFileName = "#{Octopus.Project.Git.BasePath}/Scripts/MyScript.sh"
-            Octopus.Action.Script.ScriptSource = "GitRepository"
-            OctopusUseBundledTooling = "False"
-        }
-        worker_pool = "hosted-ubuntu"
-
-        container {
-            feed = "dockerhub"
-            image = "octopusdeploy/worker-tools:6.4.0-ubuntu.22.04"
-        }
-    }
-}
