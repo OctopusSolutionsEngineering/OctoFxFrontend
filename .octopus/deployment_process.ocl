@@ -107,6 +107,7 @@ step "slack-send-simple-notification" {
 
     action {
         environments = ["production"]
+        is_disabled = true
         properties = {
             Octopus.Action.Template.Id = "ActionTemplates-361"
             Octopus.Action.Template.Version = "15"
