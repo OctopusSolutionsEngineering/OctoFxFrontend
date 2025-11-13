@@ -102,6 +102,26 @@ step "datadog-create-deployment-event" {
     }
 }
 
+step "run-selenium-test-suite" {
+    name = "Run Selenium test suite"
+
+    action {
+        action_type = "Octopus.Script"
+        properties = {
+            Octopus.Action.Script.ScriptBody = "Write-Host \"TODO: Write command to execute Selenium, Cypress or Playwright ...\""
+            Octopus.Action.Script.ScriptSource = "Inline"
+            Octopus.Action.Script.Syntax = "PowerShell"
+            OctopusUseBundledTooling = "False"
+        }
+        worker_pool = "hosted-ubuntu"
+
+        container {
+            feed = "dockerhub"
+            image = "octopusdeploy/worker-tools:6.4.0-ubuntu.22.04"
+        }
+    }
+}
+
 step "slack-send-simple-notification" {
     name = "Slack - Send Simple Notification"
 
