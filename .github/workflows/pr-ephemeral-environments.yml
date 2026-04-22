@@ -1,6 +1,9 @@
 name: "PR Workflow"
 
 on:
+  push:
+    branches:
+      - FINT-*
   pull_request:
     branches:
       - FINT-*
