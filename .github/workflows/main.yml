@@ -1,4 +1,4 @@
-name: CI Build
+name: "CI Build"
 
 on:
   push:
@@ -10,10 +10,10 @@ permissions: write-all
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     env:
-      OCTOPUS_SPACE: 'FinTech'
-  
+      OCTOPUS_SPACE: "FinTech"
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '18'
+          node-version: "18"
 
       - name: Install dependencies
         run: npm install
@@ -32,42 +32,42 @@ jobs:
       - name: Run tests
         run: npm test
 
-      - name: 'Login to GitHub Container Registry'
+      - name: "Login to GitHub Container Registry"
         uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{github.actor}}
           password: ${{secrets.GITHUB_TOKEN}}
 
-      - name: 'Build Docker Image'
+      - name: "Build Docker Image"
         run: |
-              docker build . --tag ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
-              docker push ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
+          docker build . --tag ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
+          docker push ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
 
-      - name: Login to Octopus Deploy 
+      - name: Login to Octopus Deploy
         uses: OctopusDeploy/login@v1
-        with: 
+        with:
           server: https://robpearson.octopus.app
           service_account_id: e8f2fc95-9160-4419-be1d-8ebbb5326968
 
       - name: Push Build Information (Metadata)
-        uses: OctopusDeploy/push-build-information-action@v3       
+        uses: OctopusDeploy/push-build-information-action@v3
         with:
           version: ${{env.PACKAGE_VERSION}}
           packages: octopussolutionsengineering/octofx-frontend
           overwrite_mode: OverwriteExisting
-          
+
       - name: Create Octopus Release
         uses: OctopusDeploy/create-release-action@v3
-        with: 
-          project: 'Portal frontend'
+        with:
+          project: "Portal frontend"
           release_number: ${{ env.PACKAGE_VERSION }}
-          release_notes: 'GitHub Commits URL: ${{ github.event.pull_request.commits_url }}'
-          git_ref: ${{ github.head_ref || github.ref_name }} 
+          release_notes: "GitHub Commits URL: ${{ github.event.pull_request.commits_url }}"
+          git_ref: ${{ github.head_ref || github.ref_name }}
 
       - name: Deploy a release in Octopus Deploy 🐙
         uses: OctopusDeploy/deploy-release-action@v3
         with:
-          project: 'Portal frontend'
+          project: "Portal frontend"
           release_number: ${{env.PACKAGE_VERSION}}
           environments: Development
