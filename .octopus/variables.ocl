@@ -55,3 +55,21 @@ variable "spec:ports:0:port" {
 variable "spec:template:spec:containers:0:image" {
     value "ghcr.io/octopussolutionsengineering/octofx-frontend:2.10.678" {}
 }
+
+variable "Project.CMS.URL" {
+    value "https://mycms.internal.dev" {
+        environment = ["development"]
+    }
+
+    value "https://mycms.internal.staging" {
+        environment = ["staging"]
+    }
+
+    value "https://www.vic.gov.au" {
+        environment = ["production"]
+    }
+
+    value "https://mycms.internal.pr" {
+        environment = ["pull-requests"]
+    }
+}
