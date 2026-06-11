@@ -11,12 +11,11 @@ run_retention_policy {
 
 process {
     step "hello-world" {
-        name = "Hello, World!"
+        name = "Remove K8s Namespace"
 
         action {
             action_type = "Octopus.Script"
             properties = {
-                Octopus.Action.RunOnServer = "true"
                 Octopus.Action.Script.ScriptBody = <<-EOT
                     Write-Host 'Hello, World!
                     Replace this step with your own runbook steps.'
@@ -24,6 +23,7 @@ process {
                 Octopus.Action.Script.ScriptSource = "Inline"
                 Octopus.Action.Script.Syntax = "PowerShell"
             }
+            worker_pool = "hosted-windows"
         }
     }
 }
