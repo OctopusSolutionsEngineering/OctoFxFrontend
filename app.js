@@ -7,6 +7,8 @@ const list = []
 
 app.get('/', (req, res) => {
 
+  // Simulate some processing time
+
   res.send('OctoFX 2025.06.30 ... ')
 })
 

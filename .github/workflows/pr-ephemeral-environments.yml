@@ -1,12 +1,14 @@
-name: "CI Build"
+name: "PR Workflow"
 
 on:
   push:
     branches:
-      - main
-pull_request:
-  branches:
-    - main
+      - FINT-*
+  pull_request:
+    branches:
+      - FINT-*
+  workflow_dispatch:
+
 permissions: write-all
 
 jobs:
@@ -59,17 +61,27 @@ jobs:
           packages: octopussolutionsengineering/octofx-frontend
           overwrite_mode: OverwriteExisting
 
+      - name: Create test environment
+        uses: OctopusDeploy/create-ephemeral-environment@v1.0.0
+        with:
+          name: pr-${{ github.event.pull_request.number }}
+          project: "Portal frontend"
+
       - name: Create Octopus Release
         uses: OctopusDeploy/create-release-action@v3
         with:
           project: "Portal frontend"
           release_number: ${{ env.PACKAGE_VERSION }}
+          channel: Ephemeral Environments
           release_notes: "GitHub Commits URL: ${{ github.event.pull_request.commits_url }}"
           git_ref: ${{ github.head_ref || github.ref_name }}
+          git_commit: ${{ github.event.pull_request.head.sha }}
+          custom_fields: |
+            PullRequestNumber: ${{ github.event.pull_request.number }}
 
       - name: Deploy a release in Octopus Deploy 🐙
         uses: OctopusDeploy/deploy-release-action@v3
         with:
           project: "Portal frontend"
           release_number: ${{env.PACKAGE_VERSION}}
-          environments: Development
+          environments: pr-${{ github.event.pull_request.number }}
