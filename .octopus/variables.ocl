@@ -22,6 +22,10 @@ variable "Project.CleanedEnvironmentName" {
     value "production" {
         environment = ["production"]
     }
+
+    value "dynamic" {
+        environment = ["pull-requests"]
+    }
 }
 
 variable "Project.CleanedProjectName" {
@@ -65,11 +69,11 @@ variable "Project.CMS.URL" {
         environment = ["staging"]
     }
 
-    value "https://www.vic.gov.au" {
-        environment = ["production"]
-    }
-
     value "https://mycms.internal.pr" {
         environment = ["pull-requests"]
+    }
+
+    value "https://mycompany.com.au" {
+        environment = ["production"]
     }
 }
