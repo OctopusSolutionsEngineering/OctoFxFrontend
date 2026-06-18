@@ -2,7 +2,7 @@ name: "PR Workflow"
 on:
   pull_request:
     branches:
-      - main        # ← fires when a PR targets main, regardless of source branch name
+      - main # ← fires when a PR targets main, regardless of source branch name
   workflow_dispatch:
 
 permissions: write-all
@@ -45,7 +45,7 @@ jobs:
           docker push ghcr.io/octopussolutionsengineering/octofx-frontend:${{env.PACKAGE_VERSION}}
 
       - name: Login to Octopus Deploy
-        uses: OctopusDeploy/login@v1
+        uses: OctopusDeploy/login@v2
         with:
           server: https://robpearson.octopus.app
           service_account_id: e8f2fc95-9160-4419-be1d-8ebbb5326968
